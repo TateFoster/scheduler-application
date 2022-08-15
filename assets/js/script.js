@@ -23,7 +23,7 @@ for (i = 0; i < workHours.length; i++) {
 
   textArea.addClass("col-9 time-block description");
   textArea.attr("name", workHours[i]);
-
+  textArea.attr("placeholder", "Tasks here");
   button.addClass(
     "saveBtn btn col-2 d-flex align-items-center justify-content-center"
   );
@@ -35,6 +35,7 @@ for (i = 0; i < workHours.length; i++) {
   timeSection.append(button);
   timeBlockEl.append(timeSection);
 
+  textArea.text(localStorage.getItem(workHours[i]));
   if (parseInt(workHours[i]) < today.getHours()) {
     textArea.addClass("past");
   } else if (parseInt(workHours[i]) > today.getHours()) {
@@ -43,3 +44,8 @@ for (i = 0; i < workHours.length; i++) {
     textArea.addClass("present");
   }
 }
+
+$(".btn").click(function (event) {
+  var workEvent = event.target.previousElementSibling.value.trim();
+  localStorage.setItem(event.target.previousElementSibling.name, workEvent);
+});
