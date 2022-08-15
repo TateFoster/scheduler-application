@@ -1,9 +1,0 @@
-have current date in header
-
-have timeblocks for standard buissness hours 9:00-5:00
-
-timeblocks color coded
-    past -grey?
-    present -green?
-    future - blue
-    

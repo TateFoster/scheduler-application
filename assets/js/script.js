@@ -1,44 +1,45 @@
 var timeBlockEl = $("#timeBlocks");
-var date = $("#currentDay");
-var today = moment().format("dddd, MMMM Do YYYY, h:mm A");
-var workHours = [
-  "8:00 AM",
-  "9:00 AM",
-  "10:00 AM",
-  "11:00 AM",
-  "12:00 PM",
-  "1:00 PM",
-  "2:00 PM",
-  "3:00 PM",
-  "4:00 PM",
-  "5:00 PM",
-];
-var hour = moment().format("h:00 A");
-console.log(hour);
-date.text(today);
+var todayDate = $("#currentDay");
+var today = new Date();
+var workHours = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
+var hour = today.getHours();
+
+todayDate.text(today);
 
 for (i = 0; i < workHours.length; i++) {
   var timeSection = $("<div>");
-  timeSection
-    .addClass("row my-4 hour w-100 justify-content-center")
-    .text(workHours[i]);
   var textArea = $("<textarea>");
-  textArea.addClass("col-9 time-block description");
   var button = $("<button>");
+  var icon = $("<i>");
+  timeSection.addClass("row my-4 hour w-100 justify-content-center text-left");
+
+  if (i < 4) {
+    timeSection.text(workHours[i] + ":00 AM");
+  } else if (i > 4) {
+    timeSection.text(workHours[i] - 12 + ":00 PM");
+  } else {
+    timeSection.text(workHours[i] + ":00 PM");
+  }
+
+  textArea.addClass("col-9 time-block description");
+  textArea.attr("name", workHours[i]);
+
   button.addClass(
     "saveBtn btn col-2 d-flex align-items-center justify-content-center"
   );
-  var icon = $("<i>");
-  icon.addClass("fa-solid fa-floppy-disk");
 
-  if (moment().format("h:00 A") < workHours[i]) {
-    console.log("yay!");
-  } else {
-    console.log("nay!");
-  }
+  icon.addClass("fa-solid fa-floppy-disk");
 
   button.append(icon);
   timeSection.append(textArea);
   timeSection.append(button);
   timeBlockEl.append(timeSection);
+
+  if (parseInt(workHours[i]) < today.getHours()) {
+    textArea.addClass("past");
+  } else if (parseInt(workHours[i]) > today.getHours()) {
+    textArea.addClass("future");
+  } else {
+    textArea.addClass("present");
+  }
 }
